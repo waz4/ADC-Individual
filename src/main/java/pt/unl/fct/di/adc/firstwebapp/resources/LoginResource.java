@@ -36,7 +36,7 @@ public class LoginResource {
 	public Response doLogin(LoginData data) {
 		LOG.fine("Attempt to login user: " + data.username);
 
-		if(data.username.equals("jleitao") && data.password.equals("password")) {
+		if(data.username.equals("user") && data.password.equals("password")) {
 			AuthToken at = new AuthToken(data.username);
 			return Response.ok(g.toJson(at)).build();
 		}
@@ -48,7 +48,7 @@ public class LoginResource {
 	@GET
 	@Path("/{username}")
 	public Response checkUsernameAvailable(@PathParam("username") String username) {
-		if(username.trim().equals("jleitao")) {
+		if(username.trim().equals("user")) {
 			return Response.ok().entity(g.toJson(false)).build();
 		} else {
 			return Response.ok().entity(g.toJson(true)).build();
