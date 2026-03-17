@@ -1,5 +1,6 @@
 package pt.unl.fct.di.adc.firstwebapp.resources;
 
+import java.sql.Time;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -16,6 +17,7 @@ import jakarta.ws.rs.core.Response;
 import pt.unl.fct.di.adc.firstwebapp.util.AuthToken;
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Datastore;
@@ -90,4 +92,36 @@ public class LoginResource {
 			return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
 		}
 	}
+
+	@POST
+	@Path("/v1a")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response doLoginV1a(LoginData data) {
+		LOG.fine("Attempt to login user: " + data.username);
+
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Entity user = datastore.get(userKey);
+
+		if(user != null) {
+			String hashedPWD = user.getString("user_pwd");
+			if(hashedPWD.equals(DigestUtils.sha512Hex(data.password))) {
+				LOG.info("User '" + data.username + "' logged in successfully.");
+				user = Entity.newBuilder(user)
+						.set("user_login_time", Timestamp.now())
+						.build();
+				datastore.update(user);
+				AuthToken at = new AuthToken(data.username);
+				return Response.ok(g.toJson(at)).build();
+			}
+			else {
+				LOG.warning("User '" + data.username + "' provided wrong password.");
+				return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
+			}
+		}
+		else {
+			LOG.warning("User '" + data.username + "' does not exist.");
+			return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
+		}
+	}
+
 }
