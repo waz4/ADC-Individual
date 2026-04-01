@@ -13,19 +13,4 @@
   	<min-idle-instances>0</min-idle-instances>
   </automatic-scaling>
 
-
-  <static-files>
-    <include path="/**.html" expiration="1m" /> <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.css" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.js"  expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.jpg" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.gif" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.png" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.mp3" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.wav" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.ttf" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.ico" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-    <include path="/**.cur" expiration="1m" />  <!-- 1 minute, normal is 12h or more -->
-  </static-files>
-  
 </appengine-web-app>

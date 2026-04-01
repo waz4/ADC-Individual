@@ -1,0 +1,16 @@
+# Correr base de dados local
+export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true
+
+$(gcloud beta emulators datastore env-init)
+
+gcloud beta emulators datastore start --no-store-on-disk
+
+# compilar, run e deploy para a gcloud
+## Compilar
+mvn clean package
+
+## Run
+mvn appengine:run
+
+## Deploy
+mvn appengine:deploy -Dapp.deploy.projectId=initial-project-491715 -Dapp.deploy.version={VERSAO AQUI}

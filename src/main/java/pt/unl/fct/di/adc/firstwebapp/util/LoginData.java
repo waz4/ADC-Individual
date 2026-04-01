@@ -12,4 +12,11 @@ public class LoginData {
 		this.password = password;
 	}
 	
+	private boolean nonEmptyOrBlankField(String field) {
+		return field != null && !field.isBlank();
+	}
+	
+	public boolean validLogin() {
+		return nonEmptyOrBlankField(username) && nonEmptyOrBlankField(password);
+	}
 }
